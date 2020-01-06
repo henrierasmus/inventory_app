@@ -1,0 +1,3 @@
+{
+	"mongooseURI": "mongodb+srv://henri:sonor123@cluster0-aagon.mongodb.net/test?retryWrites=true&w=majority"
+}
