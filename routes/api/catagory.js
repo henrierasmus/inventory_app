@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Catagory = require('../../models/Catagory');
+const Item = require('../../models/Item');
 
 // @route   GET api/catagory
 // @desc    Display list of the catagories
@@ -14,6 +15,26 @@ router.get('/', async (req, res) => {
 		res.json(catagories);
 	} catch (err) {
 		console.error(err.message);
+	}
+});
+
+// @route   GET api/catagory/:id
+// @desc    Display list of everything that is one catagory
+// @access  Public
+
+router.get('/:catagory_id', async (req, res) => {
+	try {
+		const catagory = await Catagory.findById(req.params.catagory_id);
+		const items = await Item.find({ catagory: req.params.catagory_id });
+
+		if (!catagory) {
+			return res.status(404).json({ msg: 'Catagory not found' });
+		}
+		console.log(items);
+		res.json(items);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('server Error');
 	}
 });
 
@@ -45,7 +66,6 @@ router.post(
 			res.json(catagory);
 			console.log('Catagory created');
 		} catch (err) {
-			console.error(err.message);
 			res.status(500).send('server Error');
 		}
 	}
