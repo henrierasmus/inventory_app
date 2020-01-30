@@ -4,13 +4,14 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Brand = require('../../models/Brand');
+const Item = require('../../models/Item');
 
 // @route   GET api/brand
 // @desc    Display all brands
 // @access  Public
 router.get('/', async (req, res) => {
 	try {
-		const brands = await brands.find().sort(['name', 'ascending']);
+		const brands = await Brand.find().sort([['name', 'ascending']]);
 		res.json(brands);
 	} catch (err) {
 		console.error(err.message);
@@ -48,8 +49,8 @@ router.post(
 	}
 );
 
-// @route   DELETE api/catagory
-// @desc    Delete a catagory
+// @route   DELETE api/brand
+// @desc    Delete a brand
 // @access  Public
 
 router.delete('/:brand_id', async (req, res) => {
@@ -62,6 +63,26 @@ router.delete('/:brand_id', async (req, res) => {
 
 		await brand.deleteOne();
 		res.json({ msg: 'Brand Deleted' });
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('server Error');
+	}
+});
+
+// @route   get api/brand/id
+// @desc    Get items of a specific brand
+// @access  Public
+
+router.get('/:brand_id', async (req, res) => {
+	try {
+		const brand = await Brand.findById(req.params.brand_id);
+		const items = await Item.find({ brand: req.params.brand_id });
+
+		if (!brand) {
+			return res.status(404).json({ msg: 'Brand not found' });
+		}
+		console.log('get items from brands', items);
+		res.json(items);
 	} catch (err) {
 		console.error(err.message);
 		res.status(500).send('server Error');

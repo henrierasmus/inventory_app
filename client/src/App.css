@@ -37,3 +37,18 @@
 .navbar li {
 	padding: 1rem;
 }
+
+.brands {
+	position: relative;
+	height: 100vh;
+}
+
+.brands-inner {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin: auto;
+	padding-top: 10rem;
+	align-items: center;
+	text-align: center;
+}

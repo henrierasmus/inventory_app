@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Catagory = ({ match }) => {
+const Brand = ({ match }) => {
 	const [items, setItems] = useState([]);
 
 	useEffect(() => {
@@ -10,7 +10,7 @@ const Catagory = ({ match }) => {
 
 	const getData = async id => {
 		try {
-			const res = await axios.get(`http://localhost:5000/api/catagory/${id}`);
+			const res = await axios.get(`http://localhost:5000/api/brand/${id}`);
 			const newData = await res.data;
 			setItems(newData);
 		} catch (err) {
@@ -29,4 +29,4 @@ const Catagory = ({ match }) => {
 	);
 };
 
-export default Catagory;
+export default Brand;
